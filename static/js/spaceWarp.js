@@ -1,16 +1,12 @@
 import * as THREE from "three";
 import gsap from "gsap";
 
-export function addSpaceWarp(scene, layer, gui, MAX_DISTANCE = 18) {
-  ///////////////
-  //  Loaders  //
-  ///////////////
+const NUMBER_OF_PARTICLES = 13000;
 
+export function addSpaceWarp(scene, layer, gui, MAX_DISTANCE = 40) {
+  const Z_DISTANCE = 5;
+  const Z_THRESHOLD = 0;
   const textureLoader = new THREE.TextureLoader();
-
-  ////////////////
-  //  Textures  //
-  ////////////////
 
   const pointTexture = textureLoader.load("/textures/circle.png");
 
@@ -20,12 +16,12 @@ export function addSpaceWarp(scene, layer, gui, MAX_DISTANCE = 18) {
 
   const geometry = new THREE.BufferGeometry();
   const vertices = [];
-  for (let i = 0; i < 10000; i++) {
+  for (let i = 0; i < NUMBER_OF_PARTICLES; i++) {
     const x =
       Math.random() * MAX_DISTANCE * (Math.round(Math.random()) * 2 - 1);
     const y =
       Math.random() * MAX_DISTANCE * (Math.round(Math.random()) * 2 - 1);
-    const z = -Math.random() * MAX_DISTANCE - 0.5;
+    const z = -Math.random() * Z_DISTANCE - Z_THRESHOLD;
 
     vertices.push(x, y, z);
   }
@@ -51,8 +47,8 @@ export function addSpaceWarp(scene, layer, gui, MAX_DISTANCE = 18) {
     const ps = pointsMesh.geometry.attributes.position.array;
     for (let i = 2; i < ps.length; i += 3) {
       let tmpZ = ps[i];
-      if (tmpZ >= -0.5) {
-        tmpZ = -Math.random() * MAX_DISTANCE - 0.5;
+      if (tmpZ >= -Z_THRESHOLD) {
+        tmpZ = -Math.random() * Z_DISTANCE - Z_THRESHOLD;
       } else {
         tmpZ += 0.01;
       }

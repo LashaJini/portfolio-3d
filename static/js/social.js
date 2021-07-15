@@ -20,12 +20,21 @@ const params = {
   bevelSize: 0.004,
 };
 
+const urls = {
+  Github: "https://github.com/109149",
+  Stackoverflow: "https://stackoverflow.com/users/14414945/109149",
+  Twitter: "https://twitter.com/109149qwe",
+  Reddit: "https://reddit.com/user/109149",
+  Email: "mailto:lasha.jini@gmail.com",
+  Portfolio2D: "https://109149.rocks"
+};
+
 const duration = 1;
 
 export async function addSocialButtons(scene, layer, gui, delay = 0) {
   const folder = gui.addFolder("Social Buttons");
   const socialGroup = new THREE.Group();
-  socialGroup.position.z = 1;
+  socialGroup.position.z = -2;
   scene.add(socialGroup);
 
   ///////////////
@@ -44,7 +53,6 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
     "/models/github.glb"
   );
   const githubMesh = getMesh(githubScene, "Github");
-  githubMesh.scale.set(5, 5, 5);
   githubMesh.position.x = -2.5;
   githubMesh.rotation.order = "YXZ";
   githubMesh.material.color.set(colors.githubMesh);
@@ -58,7 +66,6 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
 
   const soScene = await utils.gltfLoaderPromise(gltfLoader, "/models/so.glb");
   const soMesh = getMesh(soScene, "Stackoverflow");
-  soMesh.scale.set(8, 8, 8);
   soMesh.position.x = -1.5;
   soMesh.rotation.order = "YXZ";
   soMesh.material.color.set(colors.soMesh);
@@ -75,7 +82,6 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
     "/models/twitter.glb"
   );
   const twitterMesh = getMesh(twitterScene, "Twitter");
-  twitterMesh.scale.set(6, 6, 6);
   twitterMesh.position.x = -0.5;
   twitterMesh.rotation.order = "YXZ";
   twitterMesh.material.color.set(colors.twitterMesh);
@@ -92,7 +98,6 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
     "/models/reddit.glb"
   );
   const redditMesh = getMesh(redditScene, "Reddit");
-  redditMesh.scale.set(2.5, 2.5, 2.5);
   redditMesh.position.x = 0.5;
   redditMesh.rotation.order = "YXZ";
   redditMesh.material.color.set(colors.redditMesh);
@@ -109,7 +114,6 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
     "/models/email.glb"
   );
   const emailMesh = getMesh(emailScene, "Email");
-  emailMesh.scale.set(2.5, 2.5, 2.5);
   emailMesh.position.x = 1.5;
   emailMesh.rotation.order = "YXZ";
   emailMesh.material.color.set(colors.emailMesh);
@@ -118,7 +122,7 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
   gsap.fromTo(
     emailMesh.scale,
     { x: 0.01, y: 0.01, z: 0.01 },
-    { ease: "expo.in", delay: delay + 0.4, duration, x: 2.5, y: 2.5, z: 2.5 }
+    { ease: "expo.in", delay: delay + 0.4, duration, x: 2.5, y: 8, z: 2.5 }
   );
 
   //////////////
@@ -133,6 +137,7 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
   _2dGeometry.center();
   const _2dMaterial = new THREE.MeshStandardMaterial({ color: colors._2dMesh });
   const _2dMesh = new THREE.Mesh(_2dGeometry, _2dMaterial);
+  _2dMesh.name = "Portfolio2D";
   _2dMesh.position.x = 2.5;
   _2dMesh.rotation.order = "YXZ";
   _2dMesh.layers.set(layer);
@@ -158,7 +163,7 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
     const intersects = raycaster.intersectObjects(socialGroup.children);
     if (intersects.length > 0) {
       const object = intersects[0].object;
-      object.material.color = new THREE.Color("green");
+      window.open(urls[object.name], "_blank");
     }
   });
 

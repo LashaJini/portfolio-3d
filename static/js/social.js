@@ -50,7 +50,7 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
 
   const githubScene = await utils.gltfLoaderPromise(
     gltfLoader,
-    "/models/github.glb"
+    "/portfolio-3d/models/github.glb"
   );
   const githubMesh = getMesh(githubScene, "Github");
   githubMesh.position.x = -2.5;
@@ -64,7 +64,7 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
     { ease: "expo.in", delay, duration, x: 5, y: 5, z: 5 }
   );
 
-  const soScene = await utils.gltfLoaderPromise(gltfLoader, "/models/so.glb");
+  const soScene = await utils.gltfLoaderPromise(gltfLoader, "/portfolio-3d/models/so.glb");
   const soMesh = getMesh(soScene, "Stackoverflow");
   soMesh.position.x = -1.5;
   soMesh.rotation.order = "YXZ";
@@ -79,7 +79,7 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
 
   const twitterScene = await utils.gltfLoaderPromise(
     gltfLoader,
-    "/models/twitter.glb"
+    "/portfolio-3d/models/twitter.glb"
   );
   const twitterMesh = getMesh(twitterScene, "Twitter");
   twitterMesh.position.x = -0.5;
@@ -95,7 +95,7 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
 
   const redditScene = await utils.gltfLoaderPromise(
     gltfLoader,
-    "/models/reddit.glb"
+    "/portfolio-3d/models/reddit.glb"
   );
   const redditMesh = getMesh(redditScene, "Reddit");
   redditMesh.position.x = 0.5;
@@ -111,7 +111,7 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
 
   const emailScene = await utils.gltfLoaderPromise(
     gltfLoader,
-    "/models/email.glb"
+    "/portfolio-3d/models/email.glb"
   );
   const emailMesh = getMesh(emailScene, "Email");
   emailMesh.position.x = 1.5;
@@ -131,7 +131,7 @@ export async function addSocialButtons(scene, layer, gui, delay = 0) {
 
   const font = await utils.fontLoaderPromise(
     fontLoader,
-    "/fonts/alba.typeface.json"
+    "/portfolio-3d/fonts/alba.typeface.json"
   );
   const _2dGeometry = utils.createTextGeometry(font, params, "2D");
   _2dGeometry.center();

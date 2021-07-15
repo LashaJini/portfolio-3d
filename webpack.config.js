@@ -11,6 +11,7 @@ const config = {
   entry: "./index",
   output: {
     path: path.join(__dirname, outDir),
+    publicPath: "/portfolio-3d/",
     // filename: "[name].[chunkhash].bundle.js",
     filename: "[name].bundle.js",
   },

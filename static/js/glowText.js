@@ -5,7 +5,7 @@ import fragmentShader from "../../shaders/glowText/fragment.glsl";
 import { utils } from "./";
 
 const params = {
-  size: 0.5,
+  size: 0.65,
   height: 0.05,
   curveSegments: 6,
   bevelThickness: 0.01,
@@ -26,7 +26,7 @@ export async function addGlowingText(scene, layer, text, gui) {
   geometry.center();
   const material = new THREE.MeshStandardMaterial({ color: "green" });
   const textMesh = new THREE.Mesh(geometry, material);
-  textMesh.position.y = 0.5;
+  textMesh.position.set(0, .5, -3);
   textMesh.layers.set(layer);
 
   utils.addTextGUI(textMesh, folder, params, font);

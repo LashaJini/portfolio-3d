@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import gsap from "gsap";
 
-export function addSpaceWarp(scene, layer, MAX_DISTANCE = 18) {
+export function addSpaceWarp(scene, layer, gui, MAX_DISTANCE = 18) {
   ///////////////
   //  Loaders  //
   ///////////////

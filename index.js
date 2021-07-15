@@ -5,6 +5,7 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { ARButton } from "three/examples/jsm/webxr/ARButton.js";
 import { addSpaceWarp, addSocialButtons, addGlowingText } from "./static/js";
 import gsap from "gsap";
 import * as dat from "dat.gui";
@@ -13,19 +14,14 @@ import "./static/css/global.css";
 import vertexShader from "./shaders/glowText/vertex.glsl";
 import fragmentShader from "./shaders/glowText/fragment.glsl";
 
-// TODO: LOGO
-// TODO: check orientation change
-// TODO: make soc buttons clickable
-// TODO: add AR button
-//
-// SUGGESTIONS:
-// TODO: make text animateable
-// TODO: limit camera movement (max rotation/zoom)
 const canvas = document.querySelector(".scene");
 const size = { width: window.innerWidth, height: window.innerHeight };
 const callbacks = [];
 
 const gui = new dat.GUI();
+if (!window.location.hash.includes("#debug")) {
+  gui.hide();
+}
 
 const ENTIRE_SCENE = 0;
 const BLOOM_SCENE = 1;
@@ -36,7 +32,7 @@ const materials = {};
 const params = {
   bloomStrength: 1.24,
   bloomThreshold: 0,
-  bloomRadius: 1.4,
+  bloomRadius: 0.2,
 };
 
 const bloomLayer = new THREE.Layers();
@@ -52,6 +48,7 @@ window.addEventListener("resize", function () {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(size.width, size.height);
 
+  finalComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   finalComposer.setSize(size.width, size.height);
 });
 
@@ -75,6 +72,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(size.width, size.height);
 renderer.toneMapping = THREE.ReinhardToneMapping;
 renderer.toneMappingExposure = 1.5;
+// renderer.xr.enabled = true;
 
 //////////////
 //  Camera  //
@@ -86,10 +84,17 @@ const camera = new THREE.PerspectiveCamera(
   0.01,
   100
 );
-camera.position.set(-8.76, 5.15, 15.15);
+camera.position.set(-10.76, 7.15, 12.15);
 camera.layers.enable(BLOOM_SCENE);
 scene.add(camera);
-gsap.to(camera.position, { duration: 2, x: -2.35, y: 1.84, z: 6.65 });
+gsap.to(camera.position, { duration: 2, x: 0, y: 0.5, z: 5.89 }).then(() => {
+  controls.maxDistance = 7.5;
+  controls.minDistance = 3.5;
+  controls.minAzimuthAngle = -Math.PI / 6;
+  controls.maxAzimuthAngle = Math.PI / 6;
+  controls.minPolarAngle = 1.09;
+  controls.maxPolarAngle = 2.07;
+});
 
 //////////////////////
 //  PostProcessing  //
@@ -126,6 +131,8 @@ const finalPass = new ShaderPass(
 finalPass.needsSwap = true;
 
 const finalComposer = new EffectComposer(renderer);
+finalComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+finalComposer.setSize(size.width, size.height);
 finalComposer.addPass(renderScene);
 finalComposer.addPass(finalPass);
 
@@ -142,9 +149,10 @@ scene.add(new THREE.AmbientLight("#404040", 1.0));
 //  Controls  //
 ////////////////
 
-const controls = new OrbitControls(camera, canvas);
+let controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
-controls.enablePan = true;
+controls.enablePan = false;
+// window.controls = controls;
 
 const animateSpaceWarp = addSpaceWarp(scene, ENTIRE_SCENE, gui);
 callbacks.push(animateSpaceWarp);
@@ -203,19 +211,47 @@ function restoreMaterial(obj) {
   }
 }
 
-let lastTime = performance.now();
-const tick = (currTime) => {
-  const delta = currTime - lastTime;
-  if (delta >= 16) {
+function arRenderLoop() {
+  renderer.setAnimationLoop(function () {
     callbacks.forEach((cb) => cb());
-
     controls.update();
     render();
+  });
+}
 
-    lastTime = currTime;
-  }
+let animationId = null;
+function renderLoop() {
+  let lastTime = performance.now();
+  const tick = (currTime) => {
+    const delta = currTime - lastTime;
+    if (delta >= 16) {
+      callbacks.forEach((cb) => cb());
 
-  requestAnimationFrame(tick);
-};
+      controls.update();
+      render();
 
-tick();
+      lastTime = currTime;
+    }
+
+    animationId = requestAnimationFrame(tick);
+  };
+  tick();
+}
+
+renderLoop();
+
+// const arButton = ARButton.createButton(finalComposer.renderer);
+// document.body.appendChild(arButton);
+// arButton.onclick = function () {
+//   if (renderer.xr.isPresenting) {
+//     cancelAnimationFrame(animationId);
+//     animationId = null;
+//     arRenderLoop();
+//     console.log("using AR render loop");
+//   } else if (animationId !== null) {
+//     renderLoop();
+//     console.log("using render loop");
+//   }
+// };
+// arRenderLoop();
+// renderLoop();

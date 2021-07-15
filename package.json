@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "main": "index.js",
   "repository": "git@github.com:109149/portfolio-3d.git",
+  "homepage": "https://109149.rocks/portfolio-3d/",
   "author": "109149 <109149qwe@gmail.com> (http://109149.rocks/)",
   "scripts": {
     "build": "webpack --mode=production",

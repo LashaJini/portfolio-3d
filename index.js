@@ -48,6 +48,9 @@ window.addEventListener("resize", function () {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(size.width, size.height);
 
+  bloomComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  bloomComposer.setSize(size.width, size.height);
+
   finalComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   finalComposer.setSize(size.width, size.height);
 });

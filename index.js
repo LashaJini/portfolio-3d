@@ -15,7 +15,6 @@ import fragmentShader from "./shaders/glowText/fragment.glsl";
 
 // TODO: LOGO
 // TODO: check orientation change
-// TODO: add rest of the soc buttons
 // TODO: make soc buttons clickable
 // TODO: add AR button
 //
@@ -90,7 +89,7 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(-8.76, 5.15, 15.15);
 camera.layers.enable(BLOOM_SCENE);
 scene.add(camera);
-gsap.to(camera.position, { duration: 2, x: -1.48, y: 1.16, z: 4.19 });
+gsap.to(camera.position, { duration: 2, x: -2.35, y: 1.84, z: 6.65 });
 
 //////////////////////
 //  PostProcessing  //
@@ -147,31 +146,36 @@ const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.enablePan = true;
 
-const animateSpaceWarp = addSpaceWarp(scene, ENTIRE_SCENE);
+const animateSpaceWarp = addSpaceWarp(scene, ENTIRE_SCENE, gui);
 callbacks.push(animateSpaceWarp);
 
-const animateSocialButtons = addSocialButtons(scene, BLOOM_SCENE, 2);
-callbacks.push(animateSocialButtons);
+addSocialButtons(scene, BLOOM_SCENE, gui, 1).then((animate) =>
+  callbacks.push(animate)
+);
 
-addGlowingText(scene, BLOOM_SCENE).then((textMesh) => scene.add(textMesh));
+addGlowingText(scene, BLOOM_SCENE, "109149", gui).then((textMesh) =>
+  scene.add(textMesh)
+);
 
 ///////////
 //  GUI  //
 ///////////
 
-gui
+const glowGUI = gui.addFolder("Glow");
+
+glowGUI
   .add(params, "bloomStrength")
   .min(0)
   .max(5)
   .step(0.01)
   .onChange((state) => (bloomPass.strength = state));
-gui
+glowGUI
   .add(params, "bloomRadius")
   .min(0)
   .max(5)
   .step(0.01)
   .onChange((state) => (bloomPass.radius = state));
-gui
+glowGUI
   .add(params, "bloomThreshold")
   .min(0)
   .max(5)

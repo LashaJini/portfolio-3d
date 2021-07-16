@@ -19,7 +19,7 @@ export async function addGlowingText(scene, layer, text, gui) {
 
   const font = await utils.fontLoaderPromise(
     fontLoader,
-    "/portfolio-3d/fonts/alba.typeface.json"
+    "/portfolio-3d/portfolio-3d/fonts/alba.typeface.json"
   );
 
   const geometry = utils.createTextGeometry(font, params, text);

@@ -8,7 +8,7 @@ export function addSpaceWarp(scene, layer, gui, MAX_DISTANCE = 40) {
   const Z_THRESHOLD = 0;
   const textureLoader = new THREE.TextureLoader();
 
-  const pointTexture = textureLoader.load("/portfolio-3d/textures/circle.png");
+  const pointTexture = textureLoader.load("/portfolio-3d/portfolio-3d/textures/circle.png");
 
   //////////////
   //  Meshes  //

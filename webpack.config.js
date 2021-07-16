@@ -11,7 +11,6 @@ const config = {
   entry: "./index",
   output: {
     path: path.join(__dirname, outDir),
-    publicPath: "/portfolio-3d/",
     // filename: "[name].[chunkhash].bundle.js",
     filename: "[name].bundle.js",
   },
@@ -66,6 +65,10 @@ const config = {
 module.exports = (env, argv) => {
   if (argv.mode === "development") {
     config.devtool = "source-map";
+  }
+
+  if (argv.mode === "production") {
+    config.output.publicPath =  "/portfolio-3d/";
   }
 
   return config;

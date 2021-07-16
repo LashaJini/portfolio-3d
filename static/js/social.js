@@ -25,7 +25,7 @@ const urls = {
   Stackoverflow: "https://stackoverflow.com/users/14414945/109149",
   Twitter: "https://twitter.com/109149qwe",
   Reddit: "https://reddit.com/user/109149",
-  Email: "mailto:lasha.jini@gmail.com",
+  Email: "mailto:109149qwe@gmail.com",
   Portfolio2D: "https://109149.rocks"
 };
 
